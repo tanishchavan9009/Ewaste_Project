@@ -101,13 +101,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ==================== PRELOADER ====================
 function initPreloader() {
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('preloader').classList.add('hidden');
-        }, 1200);
-    });
+    const hideLoader = () => {
+        const loader = document.getElementById('preloader');
+        if (loader) {
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 600);
+        }
+    };
+
+    if (document.readyState === 'complete') {
+        hideLoader();
+    } else {
+        window.addEventListener('load', hideLoader);
+        // Safety fallback: ensure loader never blocks screen longer than 2.5 seconds
+        setTimeout(hideLoader, 2500);
+    }
 }
 
 // ==================== CSV DATA LOADING ====================
